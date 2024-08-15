@@ -1,0 +1,246 @@
+
+<h1 id="1._Introducing_Express">
+    <a href="#1._Introducing_Express">1._Introducing_Express</a>
+</h1><p>Express was created by TJ Holowaychuk, a web framework inspired by Sinatra, which is a web framework built on Ruby.</p>
+<blockquote>
+<p>Express underwent a fairly substantial rewrite between 2.x and 3.0, then again between 3.x and 4.0. This book will focus on version 4.0.</p>
+</blockquote>
+
+<h1 id="2._Getting_Started_with_Node">
+    <a href="#2._Getting_Started_with_Node">2._Getting_Started_with_Node</a>
+</h1><ul>
+<li>Installation guides</li>
+<li>terminal usage for basic file commands</li>
+<li>deciding which editor to use</li>
+</ul>
+
+<h2 id="Simple_web_server_in_node">
+    <a href="#Simple_web_server_in_node">Simple_web_server_in_node</a>
+</h2><pre><code class="language-js">var http = require(&quot;http&quot;);
+
+http
+  .createServer(function (req, res) {
+    res.writeHead(200, { &quot;Content-Type&quot;: &quot;text/plain&quot; });
+    res.end(&quot;Hello world!&quot;);
+  })
+  .listen(3000);
+
+console.log(&quot;Server started on localhost:3000; press Ctrl-C to terminate....&quot;);
+</code></pre>
+
+<h1 id="3._Saving_Time_with_Express">
+    <a href="#3._Saving_Time_with_Express">3._Saving_Time_with_Express</a>
+</h1><p>In Chapter 2, you learned how to create a simple web server using only Node. In this chapter, we will recreate that server using Express.</p>
+<blockquote>
+<p>Take a look at scaffolding utility provided by express</p>
+</blockquote>
+
+<h2 id="Views_and_Layouts">
+    <a href="#Views_and_Layouts">Views_and_Layouts</a>
+</h2><p>a view is what gets delivered to the user. In the case of a website, that usually means HTML, though you could also deliver a PNG or a PDF, or anything that can be rendered by the client. For our purposes, we will consider views to be HTML.</p>
+<p>static is the content that does not need to be changed on the fly like css, image files, js etc</p>
+
+<h2 id="Using_Handlebars_as_a_template_framework">
+    <a href="#Using_Handlebars_as_a_template_framework">Using_Handlebars_as_a_template_framework</a>
+</h2><pre><code class="language-js">var app = express();
+// set up handlebars view engine
+var handlebars = require(&quot;express3-handlebars&quot;).create({
+  defaultLayout: &quot;main&quot;,
+});
+
+app.engine(&quot;handlebars&quot;, handlebars.engine);
+app.set(&quot;view engine&quot;, &quot;handlebars&quot;);
+</code></pre>
+
+<h2 id="File_structure_for_using_Handlebars">
+    <a href="#File_structure_for_using_Handlebars">File_structure_for_using_Handlebars</a>
+</h2><pre><code>├── app.js
+└── views
+    ├── 404.handlebars
+    ├── 500.handlebars
+    ├── about.handlebars
+    ├── home.handlebars
+    └── layouts
+        └── main.handlebars
+        └── custom.handlebars
+</code></pre>
+<p>It become tedious to rewrite all that repetitive code for every page, it creates a potential maintenance nightmare: if you want to change something on every page, you have to change all the files. Layouts free you from this, providing a common framework for all the pages on your site.</p>
+<pre><code class="language-html">views/layouts/main.handlebars:
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Meadowlark Travel&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    {{{body}}}
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>{{{body}}}. This expression will be replaced with the HTML for each view. When we created the Handlebars in‐ stance, note we specified the default layout (defaultLayout:&#39;main&#39;). That means that unless you specify otherwise, this is the layout that will be used for any view.</p>
+<pre><code class="language-html">views/home.handlebars:
+&lt;h1&gt;Welcome to Meadowlark Travel&lt;/h1&gt;
+</code></pre>
+
+<h2 id="Static_Files_and_Views">
+    <a href="#Static_Files_and_Views">Static_Files_and_Views</a>
+</h2><p>Static middleware allows you to designate one or more directories as containing static resources that are simply to be delivered to the client without any special handling. This is where you would put things like images, CSS files, and client-side JavaScript files.</p>
+<pre><code class="language-js">app.use(express.static(__dirname + &quot;/public&quot;));
+</code></pre>
+<p>every asset can be stored inside <code>/public</code> dir like images and css files etc</p>
+
+<h2 id="Dynamic_content">
+    <a href="#Dynamic_content">Dynamic_content</a>
+</h2><p>Views aren’t simply a complicated way to deliver static HTML (though they can certainly do that as well). The real power of views is that they can contain dynamic information.</p>
+<pre><code class="language-html">/views/about.handlebars
+&lt;h1&gt;{{{text}}}&lt;/h1&gt;
+</code></pre>
+<pre><code class="language-js">app.get(&quot;/about&quot;, function (req, res) {
+  res.render(&quot;about&quot;, { text: &quot;random text&quot; });
+});
+</code></pre>
+
+<h1 id="4._Tidying_Up">
+    <a href="#4._Tidying_Up">4._Tidying_Up</a>
+</h1><p>Best Practices</p>
+<ul>
+<li>Version control</li>
+<li>npm packages</li>
+<li>module exports</li>
+</ul>
+
+<h1 id="5._Quality_Assurance">
+    <a href="#5._Quality_Assurance">5._Quality_Assurance</a>
+</h1><p>Stupid shit</p>
+
+<h1 id="6._The_Request_and_Response_Objects">
+    <a href="#6._The_Request_and_Response_Objects">6._The_Request_and_Response_Objects</a>
+</h1><p><code>https://localhost:3000/about?test=1#history</code></p>
+<pre><code>http:// -&gt; protocol
+localhost -&gt; hostname
+:30 -&gt; port name
+/about -&gt; path
+?test=1 -&gt; querystring
+#history -&gt; fragment
+</code></pre>
+
+<h2 id="Response_Headers">
+    <a href="#Response_Headers">Response_Headers</a>
+</h2><p>Browsers will respect the Content-Type header regardless of what the URL path is. So you could serve HTML from a path of /image.jpg or an image from a path of /text.html. (There’s no legitimate reason to do this; it’s just important to understand that paths are abstract, and the browser uses Content-Type to determine how to render content.)</p>
+<p>It is also common for response headers to contain some information about the server, indicating what type of server it is, and sometimes even details about the operating system. The downside about returning server information is that it gives hackers a starting point to compromise your site. Extremely security- conscious servers often omit this information, or even provide false information. Disabling Express’s default X-Powered-By header is easy:</p>
+<pre><code class="language-js">app.disable(&quot;x-powered-by&quot;);
+</code></pre>
+
+<h2 id="Request_Body">
+    <a href="#Request_Body">Request_Body</a>
+</h2><p>In addition to the request headers, a request can have a body (just like the body of a response is the actual content that’s being returned). Normal GET requests don’t have bodies, but POST requests usually do. The most common media type for POST bodies is <code>application/x-www-form-urlencoded</code>, which is simply encoded name/value pairs separated by ampersands (essentially the same format as a querystring). If the POST needs to support file uploads, the media type is <code>multipart/form-data</code>, which is a more zomplicated format. Lastly, AJAX requests can use <code>application/json</code> for the body.</p>
+
+<h2 id="Parameters">
+    <a href="#Parameters">Parameters</a>
+</h2><p>The term &quot;parameters&quot; in web requests can refer to various sources like query strings, session data, request bodies, or named routing parameters, leading to confusion when they overlap. The param method in Node.js merges all these parameters, which can create bugs when conflicting values arise. This practice, influenced by PHP&#39;s $_REQUEST variable, is discouraged. Instead, the author advocates for using dedicated properties for each parameter type to avoid confusion.</p>
+
+<h2 id="Boiling_It_Down">
+    <a href="#Boiling_It_Down">Boiling_It_Down</a>
+</h2><p>The chances are that you will be using a small subset of this functionality most of the time. So let’s break it down by functionality you’ll be using most frequently.</p>
+
+<h2 id="Rendering_Content">
+    <a href="#Rendering_Content">Rendering_Content</a>
+</h2><p>Example 6-1. Basic usage</p>
+<pre><code class="language-js">// basic usage
+app.get(&quot;/about&quot;, function (req, res) {
+  res.render(&quot;about&quot;);
+});
+</code></pre>
+<p>Example 6-2. Response codes other than 200</p>
+<pre><code class="language-js">app.get(&quot;/error&quot;, function (req, res) {
+  res.status(500);
+  res.render(&quot;error&quot;);
+});
+
+// or on one line...
+app.get(&quot;/error&quot;, function (req, res) {
+  res.status(500).render(&quot;error&quot;);
+});
+</code></pre>
+<p>Example 6-3. Passing a context to a view, including querystring, cookie, and session values</p>
+<pre><code class="language-js">app.get(&quot;/greeting&quot;, function (req, res) {
+  res.render(&quot;about&quot;, {
+    message: &quot;welcome&quot;,
+    style: req.query.style,
+    userid: req.cookie.userid,
+    username: req.session.username,
+  });
+});
+</code></pre>
+<p>Example 6-4. Rendering a view without a layout</p>
+<pre><code class="language-js">// the following layout doesn&#39;t have a layout file, so views/no-layout.handlebars
+// must include all necessary HTML
+app.get(&quot;/no-layout&quot;, function (req, res) {
+  res.render(&quot;no-layout&quot;, { layout: null });
+});
+</code></pre>
+<p>Example 6-5. Rendering a view with a custom layout</p>
+<pre><code class="language-js">// the layout file views/layouts/custom.handlebars will be used
+app.get(&quot;/custom-layout&quot;, function (req, res) {
+  res.render(&quot;custom-layout&quot;, { layout: &quot;custom&quot; });
+});
+</code></pre>
+<p>Example 6-6. Rendering plaintext output</p>
+<pre><code class="language-js">app.get(&quot;/test&quot;, function (req, res) {
+  res.type(&quot;text/plain&quot;);
+  res.send(&quot;this is a test&quot;);
+});
+</code></pre>
+<p>Example 6-7. Adding an error handler</p>
+<pre><code class="language-js">// this should appear AFTER all of your routes
+// note that even if you don&#39;t need the &quot;next&quot;
+// function, it must be included for Express
+// to recognize this as an error handler
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).render(&quot;error&quot;);
+});
+</code></pre>
+<p>Example 6-8. Adding a 404 handler</p>
+<pre><code class="language-js">// this should appear AFTER all of your routes
+app.use(function (req, res) {
+  res.status(404).render(&quot;not-found&quot;);
+});
+</code></pre>
+
+<h2 id="Form_Processing">
+    <a href="#Form_Processing">Form_Processing</a>
+</h2><p>Example 6-9. Basic form processing</p>
+<pre><code class="language-js">// body-parser middleware must be linked in
+app.post(&quot;/process-contact&quot;, function (req, res) {
+  console.log(
+    &quot;Received contact from &quot; + req.body.name + &quot; &lt;&quot; + req.body.email + &quot;&gt;&quot;
+  );
+  // save to database....
+  res.redirect(303, &quot;/thank-you&quot;);
+});
+</code></pre>
+<p>Example 6-10. More robust form processing</p>
+<pre><code class="language-js">// body-parser middleware must be linked in
+app.post(&quot;/process-contact&quot;, function (req, res) {
+  console.log(
+    &quot;Received contact from &quot; + req.body.name + &quot; &lt;&quot; + req.body.email + &quot;&gt;&quot;
+  );
+  try {
+    // save to database....
+    return res.xhr
+      ? res.render({ success: true })
+      : res.redirect(303, &quot;/thank-you&quot;);
+  } catch (ex) {
+    return res.xhr
+      ? res.json({ error: &quot;Database error.&quot; })
+      : res.redirect(303, &quot;/database-error&quot;);
+  }
+});
+</code></pre>
+
+<h2 id="Providing_an_API">
+    <a href="#Providing_an_API">Providing_an_API</a>
+</h2><p>WIP</p>
+
+<h1 id="7._Templating_with_handlebars">
+    <a href="#7._Templating_with_handlebars">7._Templating_with_handlebars</a>
+</h1>
