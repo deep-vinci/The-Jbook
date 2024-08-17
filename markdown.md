@@ -125,7 +125,7 @@ Stupid shit
 
 # 6. The Request and Response Objects
 
-`https://localhost:3000/about?test=1#history`
+[text](https://localhost:3000/about?test=1#history)
 
 ```
 http:// -> protocol
@@ -286,3 +286,8 @@ app.post("/process-contact", function (req, res) {
 WIP
 
 # 7. Templating with handlebars
+
+- demo0
+- demo1 
+- demo2
+- demo2
