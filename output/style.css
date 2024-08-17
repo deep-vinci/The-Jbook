@@ -31,7 +31,18 @@ nav {
 nav {
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 20px;
+}
+
+nav a {
+    padding: 5px 0;
+    text-decoration: none;
+    color: black;
+}
+
+nav a:hover {
+    padding: 5px 10px;
+    color: blue;
 }
 
 section {
