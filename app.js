@@ -2,9 +2,9 @@ let fs = require("node:fs");
 let marked = require("marked");
 
 
-fs.readFile(__dirname + "/demo1.txt", "utf-8", (err, data) => {
+fs.readFile(__dirname + "/markdown.md", "utf-8", (err, data) => {
     if (err) {
-        console.log("File read error");
+        console.log("File read error"); 
         return 0;
     }
 
@@ -34,17 +34,32 @@ fs.readFile(__dirname + "/demo1.txt", "utf-8", (err, data) => {
 
     const renderer = {
         heading({ tokens, depth }) {
-            const text = (this.parser.parseInline(tokens).replace(/ /g, "_"));
+            const text = this.parser.parseInline(tokens);
 
             return `
-<h${depth} id="${text}">
-    <a href="#${text}">${text}</a>
+<h${depth} id="${text.replace(/ /g, "_")}">
+    <a href="#${text.replace(/ /g, "_")}">${text}</a>
 </h${depth}>`;
         },
+
+        list(tokens) {
+            console.log(this.parser.parseInline(tokens))
+            return this.parser.parseInline(tokens).replace(" ", "9")
+        }
     };
 
     marked.use({ renderer });
-    console.log(marked.parse(data));
+
+    fs.readFile(__dirname + "/template.html", "utf-8", (err, templateData) => {
+        console.log(templateData.replace("{{{index}}}", marked.parse(data)))
+        data = templateData.replace("{{{index}}}", marked.parse(data));
+        fs.writeFile(__dirname + "/out/index.html", data, (err) => {
+            if (err) {
+                console.log("error writing to file")
+            }
+        })
+    })
+    // console.log(marked.parse(data));
 
     // console.log(tokens);
     // console.log(lexer.tokenizer.rules.block); // block level rules used
