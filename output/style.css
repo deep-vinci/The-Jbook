@@ -28,6 +28,12 @@ nav {
     position: fixed;
 }
 
+nav {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
 section {
     margin-left: 300px;
     padding: 0px 200px;

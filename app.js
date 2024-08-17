@@ -55,7 +55,7 @@ fs.readFile(__dirname + "/markdown.md", "utf-8", (err, data) => {
     //   console.log()
     // });
     console.log(navData)
-    updateFile(htmlOutput, navData, "template.html", "index.html")
+    updateFile(htmlOutput, navData.join(" "), "template.html", "index.html")
     // for (let key in navData) {
     //     console.log(navData["raw"]);
     // }
