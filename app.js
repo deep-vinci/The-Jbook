@@ -36,7 +36,7 @@ fs.readFile(__dirname + "/markdown.md", "utf-8", (err, data) => {
 
     renderer.heading = (text) => {
         if (text.depth == 1) {
-            let navString = `<a href="#${text.text.replace(/ /g, "_")}">${text.text}</a>`
+            let navString = `<a href="#${text.text.replace(/ /g, "_")}"><li>${text.text}</li></a>`
             navData.push(navString);
             console.log(text.raw)
         }
@@ -46,16 +46,16 @@ fs.readFile(__dirname + "/markdown.md", "utf-8", (err, data) => {
     }
     
 
-
-    
     marked.use({ renderer });
     const htmlOutput = marked.parse(data);
 
     // navData.forEach(() => {
     //   console.log()
     // });
-    console.log(navData)
-    updateFile(htmlOutput, navData.join(" "), "template.html", "index.html")
+    htmlNavData = `
+<ol>${navData.join("")}</ol>
+    `
+    updateFile(htmlOutput, htmlNavData, "template.html", "index.html")
     // for (let key in navData) {
     //     console.log(navData["raw"]);
     // }

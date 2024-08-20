@@ -4,7 +4,7 @@
 
 body {
     font-family: Verdana, sans-serif;
-    font-size: 2.2ch;    
+    font-size: 2.2ch;
 }
 
 h1 {
@@ -21,43 +21,53 @@ h2 {
 }
 
 nav {
-    background-color: rgb(253, 232, 235);
+    background-color: rgb(249, 244, 245);
     height: 100vh;
     width: 300px;
     flex-shrink: 0;
-    position: fixed;
+    position: fixed;    
 }
 
 nav {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+}
+
+nav ol {
+    /* padding: 10px 20px; */
+    list-style-position: inside;
+    list-style: none;
+    padding: 30px;
 }
 
 nav a {
-    padding: 5px 0;
+    padding: 0px 1px;
     text-decoration: none;
     color: black;
 }
 
 nav a:hover {
-    padding: 5px 10px;
     color: blue;
 }
 
 section {
     margin-left: 300px;
-    padding: 0px 200px;
-    line-height: 2.8ch;
 }
 
 section a {
-    color:rgb(29, 29, 30);
+    color: rgb(29, 29, 30);
     text-decoration: none;
 }
 
 section a:visited {
-    color:rgb(29, 29, 30);
+    color: rgb(29, 29, 30);
+}
+
+.page {
+    padding: 0px 200px;
+    line-height: 2.8ch;
+    display: flex;
+    flex-direction: column;
 }
 
 blockquote {
@@ -70,7 +80,19 @@ blockquote {
 
 pre {
     /* background-color: rgb(234, 234, 234); */
-    padding: 20px 0; 
+    padding: 20px 0;
     line-height: 2.3ch;
     margin: 20px 0;
+}
+
+.header {
+    background-color: red;
+    height: 60px;
+    margin-bottom: 20px;
+    position: fixed;
+    /* width: calc(100vw - 300px); */
+    z-index: 1000;
+}
+
+.nav-control {
 }
