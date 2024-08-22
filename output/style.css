@@ -64,6 +64,7 @@ section a:visited {
 }
 
 .page {
+    margin-top: 70px;
     padding: 0px 200px;
     line-height: 2.8ch;
     display: flex;
@@ -86,13 +87,42 @@ pre {
 }
 
 .header {
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     height: 60px;
     margin-bottom: 20px;
     position: fixed;
-    /* width: calc(100vw - 300px); */
+    width: calc(100vw - 300px);
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.nav-control {
+.header p {
+    font-size: 24px;
+    color: rgb(116, 116, 116);
+    font-family: "Open Sans", sans-serif;   
+    font-size: 200;
+}
+
+.header button {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: none;   
+    border-radius: 10px;
+}
+
+.github {
+    margin-right: 30px;
+}
+
+.close {
+    margin-left: 30px;
+    justify-content: center;
+    align-items: center;    
+}
+
+.close img {
+    margin: 0px;
 }
